@@ -86,4 +86,12 @@ class Scrapper {
     // ];
   }
 
+  /**
+   * Builder.
+   */
+  public function __construct()
+  {
+    $this->papers = [];    
+  }
+
 }
