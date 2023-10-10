@@ -87,7 +87,7 @@ class Scrapper {
    *   Path to save.
    */
   public function writeToXml($fname = 'output.xlsx', $fpath = ''): void {
-    if ($this->papers === null) {
+    if ($this->papers === NULL) {
       return;
     }
 
