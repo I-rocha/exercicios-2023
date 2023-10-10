@@ -124,7 +124,7 @@ class Scrapper {
     $writer->setDefaultRowStyle($defaultStyle);
 
     // Adding to file
-    $rowHeader = WriterEntityFactory::createRowFromArray($header, $defaultStyle);
+    $rowHeader = WriterEntityFactory::createRowFromArray($header, $headerStyle);
     $writer->addRow($rowHeader);
 
     // Write each row
