@@ -14,7 +14,7 @@ use OpenSpout\Writer\XLSX\Entity\SheetView;
 class Scrapper {
   /**
    * The Papers from the doc.
-   * 
+   *
    * @var \Chuva\Php\WebScrapping\Entity\Paper[]
    */
   private $papers;
@@ -80,7 +80,7 @@ class Scrapper {
 
   /**
    * Look at the last scrapping done and writes to a xml file.
-   * 
+   *
    * @param string $fname
    *   Name of the file to write.
    * @param string $fpath
