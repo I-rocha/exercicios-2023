@@ -11,6 +11,12 @@ use LengthException;
  * Does the scrapping of a webpage.
  */
 class Scrapper {
+  /**
+   * The Papers from the doc.
+   * 
+   * @var \Chuva\Php\WebScrapping\Entity\Paper[]
+   */
+  private $papers;
 
   /**
    * Loads paper information from the HTML and returns the array with the data.
@@ -63,6 +69,8 @@ class Scrapper {
         $persons
       );
     }
+
+    $this->papers = $papers;
     return $papers;
 
     // return [
