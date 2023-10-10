@@ -4,11 +4,9 @@ namespace Chuva\Php\WebScrapping;
 
 use Chuva\Php\WebScrapping\Entity\Paper;
 use Chuva\Php\WebScrapping\Entity\Person;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use OpenSpout\Writer\XLSX\Entity\SheetView;
-use DOMXPath;
-use LengthException;
 
 /**
  * Does the scrapping of a webpage.
@@ -16,7 +14,7 @@ use LengthException;
 class Scrapper {
   /**
    * The Papers from the doc.
-   * 
+   *
    * @var \Chuva\Php\WebScrapping\Entity\Paper[]
    */
   private $papers;
@@ -40,33 +38,35 @@ class Scrapper {
         throw new \LengthException("Each card must have 3 children");
       }
 
-      // Nodes
+      // Nodes.
       $title = $card->firstChild;
       $authorsGroup = $title->nextSibling;
-      $footer = $authorsGroup->nextSibling; // Get card footer
+
+      // Get card footer.
+      $footer = $authorsGroup->nextSibling;
 
       $type = $footer->firstChild;
       $id = ($type->nextSibling)->lastChild;
 
-      // Node list
+      // Node list.
       $authors = $authorsGroup->childNodes;
 
-      // Extract author's name and institution
+      // Extract author's name and institution.
       foreach ($authors as $author) {
 
-        // Skips whitespace
+        // Skips whitespace.
         if (ctype_space($author->nodeValue)) {
           continue;
         }
 
         $institutions = $author->attributes->getNamedItem('title');
 
-        // Remove ';' at the end of string
+        // Remove ';' at the end of string.
         $authorStr = trim($author->nodeValue, ';');
         $persons[] = new Person($authorStr, $institutions->nodeValue);
       }
 
-      // Builds object
+      // Builds object.
       $papers[] = new Paper(
         $id->nodeValue,
         $title->nodeValue,
@@ -74,91 +74,81 @@ class Scrapper {
         $persons
       );
     }
-
     $this->papers = $papers;
     return $papers;
-
-    // return [
-    //   new Paper(
-    //     123,
-    //     'The Nobel Prize in Physiology or Medicine 2023',
-    //     'Nobel Prize',
-    //     [
-    //       new Person('Katalin Karikó', 'Szeged University'),
-    //       new Person('Drew Weissman', 'University of Pennsylvania'),
-    //     ]
-    //   ),
-    // ];
   }
 
   /**
-   * Look at the last scrapping done and writes to a xml file
-   * (fname) Name of the file to write
-   * (fpath) Path to save
+   * Look at the last scrapping done and writes to a xml file.
+   *
+   * @param string $fname
+   *   Name of the file to write.
+   * @param string $fpath
+   *   Path to save.
    */
   public function writeToXml($fname = 'output.xlsx', $fpath = ''): void {
-    if($this->papers === null)
+    if ($this->papers === NULL) {
       return;
+    }
 
-    // Create xlsx object and opens
+    // Create xlsx object and opens.
     $writer = WriterEntityFactory::createXLSXWriter();
     $writer->openToFile(__DIR__ . '/' . $fpath . $fname);
-    
-    // Header
+
+    // Header.
     $header = ['ID', 'Title', 'Type'];
-    
-    // Adds author's header to header
-    for($i = 1; $i <= $this->maxAuthorN($this->papers); $i++){
+
+    // Adds author's header to header.
+    for ($i = 1; $i <= $this->maxAuthorN($this->papers); $i++) {
       $header[] = "Author {$i}";
       $header[] = "Author {$i} Institution";
     }
 
-    // Sheet view
+    // Sheet view.
     $sheetView = new SheetView();
     $sheetView->setFreezeRow(2);
 
-    // Apply default view
+    // Apply default view.
     $writer->getCurrentSheet()->setSheetView($sheetView);
 
-    // Styling
+    // Styling.
     $defaultStyle = (new StyleBuilder())
-    ->setFontName('Arial')
-    ->setShouldWrapText(TRUE)
-    ->setFontSize(11)
-    ->build();
+      ->setFontName('Arial')
+      ->setShouldWrapText(TRUE)
+      ->setFontSize(11)
+      ->build();
 
     $headerStyle = (new StyleBuilder())
-    ->setFontBold()
-    ->build();
+      ->setFontBold()
+      ->build();
 
-    // Default style
+    // Default style.
     $writer->setDefaultRowStyle($defaultStyle);
 
-    // Adding to file
+    // Adding to file.
     $rowHeader = WriterEntityFactory::createRowFromArray($header, $headerStyle);
     $writer->addRow($rowHeader);
 
-    // Write each row
-    foreach($this->papers as $paper){
+    // Write each row.
+    foreach ($this->papers as $paper) {
       $rowArr = [
         (int) $paper->id,
         $paper->title,
         $paper->type,
       ];
 
-      // Obtain author's infos
-      foreach($paper->authors as $author){
+      // Obtain author's infos.
+      foreach ($paper->authors as $author) {
         $rowArr[] = $author->name;
         $rowArr[] = $author->institution;
       }
 
-      // Write
+      // Write.
       $row = WriterEntityFactory::createRowFromArray($rowArr);
       $writer->addRow($row);
     }
 
     $writer->close();
-
   }
 
   /**
@@ -171,16 +161,18 @@ class Scrapper {
     $max = 0;
     $nAuthor = 0;
 
-    if ($papers == NULL) return 0;
+    if ($papers == NULL) {
+      return 0;
+    }
 
-    // Check for all papers
-    foreach($papers as $paper){
+    // Check for all papers.
+    foreach ($papers as $paper) {
 
-      // Get number of authors in this paper
+      // Get number of authors in this paper.
       $nAuthor = count($paper->authors);
 
-      // Update max number
-      if($max < $nAuthor){
+      // Update max number.
+      if ($max < $nAuthor) {
         $max = $nAuthor;
       }
     }
@@ -191,8 +183,7 @@ class Scrapper {
   /**
    * Builder.
    */
-  public function __construct()
-  {
+  public function __construct() {
     $this->papers = [];
   }
 
