@@ -106,7 +106,7 @@ class Scrapper {
     $header = ['ID', 'Title', 'Type'];
     
     // Adds author's header to header
-    for($i = 1; $i < 10; $i++){
+    for($i = 1; $i <= $this->maxAuthorN($this->papers); $i++){
       $header[] = "Author {$i}";
       $header[] = "Author {$i} Institution";
     }
@@ -157,6 +157,33 @@ class Scrapper {
 
     $writer->close();
 
+  }
+
+  /**
+   * Calculate the maximun number of author in a single paper.
+   *
+   * @return int
+   *   max number of author per page.
+   */
+  public function maxAuthorN($papers): int {
+    $max = 0;
+    $nAuthor = 0;
+
+    if ($papers == NULL) return 0;
+
+    // Check for all papers
+    foreach($papers as $paper){
+
+      // Get number of authors in this paper
+      $nAuthor = count($paper->authors);
+
+      // Update max number
+      if($max < $nAuthor){
+        $max = $nAuthor;
+      }
+    }
+
+    return $max;
   }
 
   /**
