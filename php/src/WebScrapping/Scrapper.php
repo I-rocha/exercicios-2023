@@ -139,7 +139,7 @@ class Scrapper {
     // Write each row
     foreach($this->papers as $paper){
       $rowArr = [
-        $paper->id,
+        (int) $paper->id,
         $paper->title,
         $paper->type,
       ];
