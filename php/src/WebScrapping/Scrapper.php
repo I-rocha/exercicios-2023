@@ -94,13 +94,13 @@ class Scrapper {
    * (fname) Name of the file to write
    * (fpath) Path to save
    */
-  public function writeToXml($fname = 'output.xlsx', $fpath = '/'): void {
+  public function writeToXml($fname = 'output.xlsx', $fpath = ''): void {
     if($this->papers === null)
       return;
 
     // Create xlsx object and opens
     $writer = WriterEntityFactory::createXLSXWriter();
-    $writer->openToFile(__DIR__ . $fpath . $fname);
+    $writer->openToFile(__DIR__ . '/' . $fpath . $fname);
     
     // Header
     $header = ['ID', 'Title', 'Type'];
