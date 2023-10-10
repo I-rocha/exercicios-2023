@@ -113,14 +113,14 @@ class Scrapper {
 
     // Styling.
     $defaultStyle = (new StyleBuilder())
-    ->setFontName('Arial')
-    ->setShouldWrapText(TRUE)
-    ->setFontSize(11)
-    ->build();
+      ->setFontName('Arial')
+      ->setShouldWrapText(TRUE)
+      ->setFontSize(11)
+      ->build();
 
     $headerStyle = (new StyleBuilder())
-    ->setFontBold()
-    ->build();
+      ->setFontBold()
+      ->build();
 
     // Default style.
     $writer->setDefaultRowStyle($defaultStyle);
@@ -130,7 +130,7 @@ class Scrapper {
     $writer->addRow($rowHeader);
 
     // Write each row.
-    foreach ($this->papers as $paper){
+    foreach ($this->papers as $paper) {
       $rowArr = [
         (int) $paper->id,
         $paper->title,
@@ -138,7 +138,7 @@ class Scrapper {
       ];
 
       // Obtain author's infos.
-      foreach($paper->authors as $author){
+      foreach ($paper->authors as $author) {
         $rowArr[] = $author->name;
         $rowArr[] = $author->institution;
       }
@@ -166,13 +166,13 @@ class Scrapper {
     }
 
     // Check for all papers.
-    foreach($papers as $paper){
+    foreach ($papers as $paper) {
 
       // Get number of authors in this paper.
       $nAuthor = count($paper->authors);
 
       // Update max number.
-      if($max < $nAuthor){
+      if ($max < $nAuthor) {
         $max = $nAuthor;
       }
     }
@@ -183,8 +183,7 @@ class Scrapper {
   /**
    * Builder.
    */
-  public function __construct()
-  {
+  public function __construct() {
     $this->papers = [];
   }
 
