@@ -20,6 +20,8 @@ class Main {
     $sc = new Scrapper();
     $data = $sc->scrap($dom);
 
+    $sc->writeToXml();
+
     // Write your logic to save the output file bellow.
     print_r($data);
   }
