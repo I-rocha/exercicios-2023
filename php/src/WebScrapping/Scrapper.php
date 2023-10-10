@@ -80,17 +80,6 @@ class Scrapper {
     $this->papers = $papers;
     return $papers;
 
-    // return [
-    //   new Paper(
-    //     123,
-    //     'The Nobel Prize in Physiology or Medicine 2023',
-    //     'Nobel Prize',
-    //     [
-    //       new Person('Katalin Karikó', 'Szeged University'),
-    //       new Person('Drew Weissman', 'University of Pennsylvania'),
-    //     ]
-    //   ),
-    // ];
   }
 
   /**
