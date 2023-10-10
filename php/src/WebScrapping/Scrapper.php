@@ -121,6 +121,7 @@ class Scrapper {
     // Styling
     $defaultStyle = (new StyleBuilder())
     ->setFontName('Arial')
+    ->setShouldWrapText(TRUE)
     ->setFontSize(11)
     ->build();
 
