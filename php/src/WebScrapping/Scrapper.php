@@ -87,8 +87,9 @@ class Scrapper {
    *   Path to save.
    */
   public function writeToXml($fname = 'output.xlsx', $fpath = ''): void {
-    if ($this->papers === null)
+    if ($this->papers === null) {
       return;
+    }
 
     // Create xlsx object and opens.
     $writer = WriterEntityFactory::createXLSXWriter();
@@ -160,7 +161,9 @@ class Scrapper {
     $max = 0;
     $nAuthor = 0;
 
-    if ($papers == NULL) return 0;
+    if ($papers == NULL) {
+      return 0;
+    }
 
     // Check for all papers.
     foreach($papers as $paper){
