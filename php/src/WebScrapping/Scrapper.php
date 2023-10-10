@@ -6,6 +6,7 @@ use Chuva\Php\WebScrapping\Entity\Paper;
 use Chuva\Php\WebScrapping\Entity\Person;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\XLSX\Entity\SheetView;
 use DOMXPath;
 use LengthException;
 
@@ -109,6 +110,13 @@ class Scrapper {
       $header[] = "Author {$i}";
       $header[] = "Author {$i} Institution";
     }
+
+    // Sheet view
+    $sheetView = new SheetView();
+    $sheetView->setFreezeRow(2);
+
+    // Apply default view
+    $writer->getCurrentSheet()->setSheetView($sheetView);
 
     // Styling
     $defaultStyle = (new StyleBuilder())
