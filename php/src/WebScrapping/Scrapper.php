@@ -4,11 +4,9 @@ namespace Chuva\Php\WebScrapping;
 
 use Chuva\Php\WebScrapping\Entity\Paper;
 use Chuva\Php\WebScrapping\Entity\Person;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 use OpenSpout\Writer\XLSX\Entity\SheetView;
-use DOMXPath;
-use LengthException;
 
 /**
  * Does the scrapping of a webpage.
