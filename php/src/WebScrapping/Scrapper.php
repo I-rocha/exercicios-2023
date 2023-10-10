@@ -61,7 +61,9 @@ class Scrapper {
 
         $institutions = $author->attributes->getNamedItem('title');
 
-        $persons[] = new Person($author->nodeValue, $institutions->nodeValue);
+        // Remove ';' at the end of string
+        $authorStr = trim($author->nodeValue, ';');
+        $persons[] = new Person($authorStr, $institutions->nodeValue);
       }
 
       // Builds object
