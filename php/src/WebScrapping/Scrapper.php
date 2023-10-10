@@ -74,10 +74,8 @@ class Scrapper {
         $persons
       );
     }
-
     $this->papers = $papers;
     return $papers;
-
   }
 
   /**
@@ -89,18 +87,18 @@ class Scrapper {
    *   Path to save.
    */
   public function writeToXml($fname = 'output.xlsx', $fpath = ''): void {
-    if($this->papers === null)
+    if ($this->papers === null)
       return;
 
     // Create xlsx object and opens.
     $writer = WriterEntityFactory::createXLSXWriter();
     $writer->openToFile(__DIR__ . '/' . $fpath . $fname);
-    
+
     // Header.
     $header = ['ID', 'Title', 'Type'];
-    
+
     // Adds author's header to header.
-    for($i = 1; $i <= $this->maxAuthorN($this->papers); $i++){
+    for ($i = 1; $i <= $this->maxAuthorN($this->papers); $i++) {
       $header[] = "Author {$i}";
       $header[] = "Author {$i} Institution";
     }
@@ -131,7 +129,7 @@ class Scrapper {
     $writer->addRow($rowHeader);
 
     // Write each row.
-    foreach($this->papers as $paper){
+    foreach ($this->papers as $paper){
       $rowArr = [
         (int) $paper->id,
         $paper->title,
@@ -150,7 +148,6 @@ class Scrapper {
     }
 
     $writer->close();
-
   }
 
   /**
